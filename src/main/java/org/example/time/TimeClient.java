@@ -34,7 +34,16 @@ public class TimeClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TimeClientHandler());
+                    //原始:TimeClientHandler处理
+//                    ch.pipeline().addLast(new TimeClientHandler2());
+                    //流方法1:TimeClientHandler2处理
+//                    ch.pipeline().addLast(new TimeClientHandler2());
+                    //流方法2:TimeDecoder(继承ByteToMessageDecoder)+TimeClientHandler处理
+                    ch.pipeline().addLast(new TimeDecoder(), new TimeClientHandler());
+                    //流方法3:TimeDecoder2(继承ReplayingDecoder)+TimeClientHandler处理
+//                    ch.pipeline().addLast(new TimeDecoder2(), new TimeClientHandler());
+
+
                 }
             });
 
